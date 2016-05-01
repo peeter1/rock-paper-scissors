@@ -1,0 +1,102 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+.game {
+    width: 800px;
+    height: 400px;
+    border: 5px solid #000000;
+    margin: 50px auto;
+    position: relative;
+    font-family: arial;
+}
+
+.buttons {
+    position: absolute;
+    top: 90px;
+    left: 30px;
+}
+
+.buttons span {
+    width: 50px;
+    height: 50px;
+    display: block;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    margin: 10px;
+}
+
+.buttons span:hover {
+    cursor: pointer;
+}
+
+.buttons span.rock,
+.players .rock {
+    background-image: url(img/rock.png);
+}
+
+.buttons span.paper,
+.players .paper {
+    background-image: url(img/paper.png);
+}
+
+.buttons span.scissors,
+.players .scissors {
+    background-image: url(img/scissors.png);
+}
+
+.players > div {
+    position: absolute;
+    width: 173px;
+    height: 173px;
+    background-size: 173px;
+    background-repeat: no-repeat;
+    border-radius: 60%;
+    top: 97px;
+}
+
+.players .player {
+    left: 120px;
+}
+
+.players .computer {
+    right: 120px;
+}
+
+.scores > div {
+    position: absolute;
+    top: 290px;
+    font-size: 40px;
+    font-weight: 700;
+    width: 173px;
+    text-align: center;
+}
+
+.scores .player {
+    left: 120px;
+}
+
+.scores .computer {
+    right: 120px;
+}
+
+.titles > div {
+    position: absolute;
+    top: 40px;
+    font-size: 30px;
+    font-weight: 700;
+    width: 173px;
+    text-align: center;
+}
+
+.titles .player {
+    left: 120px;
+}
+
+.titles .computer {
+    right: 120px;
+}
