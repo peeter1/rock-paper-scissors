@@ -10,6 +10,7 @@ class Game {
     }
 
     reset() {
+        this.numberOfGames = 11;
         this.score = {
             player: 0,
             computer: 0
@@ -38,6 +39,8 @@ class Game {
         this.renderScores();
 
         this.disableMouse = false;
+
+        this.showGameCountPopup();
     }
 
     initButtons() {
@@ -63,6 +66,59 @@ class Game {
                 this.afterMove();
             }
         }.bind(this);
+    }
+
+    showGameCountPopup() {
+        var popup = document.createElement('div'),
+            buttons = document.createElement('div'),
+            button1 = document.createElement('span'),
+            button2 = document.createElement('span');
+
+        popup.className = 'popup';
+        buttons.className = 'buttons';
+
+        button1.innerHTML = '11 mängu';
+        button2.innerHTML = '21 mängu';
+
+        button1.onclick = this.gameCountButtonClick.bind(this, 11);
+        button2.onclick = this.gameCountButtonClick.bind(this, 21);
+
+        buttons.appendChild(button1);
+        buttons.appendChild(button2);
+
+        popup.appendChild(buttons);
+
+        this.container.appendChild(popup);
+    }
+
+    hideGameCountPopup() {
+        var popup = this.container.getElementsByClassName('popup')[0];
+        popup.parentNode.removeChild(popup);
+    }
+
+    gameCountButtonClick(numberOfGames) {
+        this.hideGameCountPopup();
+        this.numberOfGames = numberOfGames;
+    }
+
+    showWinnerPopup() {
+        var popup = document.createElement('div'),
+            result = document.createElement('span');
+
+        popup.className = 'popup';
+        result.className = 'result';
+
+        if (this.score.player > this.score.computer) {
+            result.innerHTML = 'Player wins!';
+        } else if (this.score.computer > this.score.player) {
+            result.innerHTML = 'Computer wins!';
+        } else {
+            result.innerHTML = 'Tie!';
+        }
+
+        popup.appendChild(result);
+
+        this.container.appendChild(popup);
     }
 
     renderScores() {
@@ -126,6 +182,15 @@ class Game {
         }
     }
 
+    evaluateWinner() {
+        if (this.score.player + this.score.computer >= this.numberOfGames) {
+            this.showWinnerPopup();
+            return true;
+        }
+
+        return false;
+    }
+
     playerWins() {
         this.score.player += 1;
         this.player.winner();
@@ -145,9 +210,12 @@ class Game {
 
     moveFinished() {
         setTimeout(function() {
-            this.disableMouse = false;
-            this.computer.reset();
-            this.player.reset();
+            // If no game winner yet, then go to next round
+            if (!this.evaluateWinner()) {
+                this.disableMouse = false;
+                this.computer.reset();
+                this.player.reset();
+            }
         }.bind(this), 1000);
     }
 
