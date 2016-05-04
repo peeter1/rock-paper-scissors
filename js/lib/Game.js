@@ -219,8 +219,44 @@ class Game {
         }.bind(this), 1000);
     }
 
+        bestMove(expectedMove) {
+        switch (expectedMove) {
+            case 'rock':
+                return this.computer.paper();
+            case 'paper':
+                return this.computer.scissors();
+            case 'scissors':
+                return this.computer.rock();
+            default:
+        }
+    }
+
     computerMove() {
         // Move stacks available at: 'this.stacks'
+        var playerStackLength = this.stacks.player.length;
+        if (this.detectPattern(3, 1)) {
+            //Player plays only one hand
+            return this.bestMove(this.stacks.player[playerStackLength - 1]);
+        }
+        if (this.detectPattern(4, 2)) {
+            //Player alternates between two hands
+            return this.bestMove(this.stacks.player[playerStackLength - 2]);
+        }
+        if (this.detectPattern(6, 3)) {
+            //Player plays three different hands in the same order
+            return this.bestMove(this.stacks.player[playerStackLength - 3]);
+        }
         this.computer.randomMove();
+    }
+
+    detectPattern(movesToCheck, patternLength) {
+        if (this.stacks.player.length >= movesToCheck) {
+            var lastMoves = this.stacks.player.slice(- movesToCheck);
+            for (var i = 0; i < lastMoves.length - patternLength; i++) {
+                if (lastMoves[i] !== lastMoves[i + patternLength]) return false;
+            }
+            return true;
+        }
+        return false;
     }
 }
